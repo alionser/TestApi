@@ -26,6 +26,7 @@ public sealed class UpdateDepartmentCommandHandler : ICommandHandler<UpdateDepar
         }
 
         department.Name = command.Name.Trim();
+        await _dataContext.SaveChangesAsync(ct);
         return new JsonResult(department);
     }
 }
