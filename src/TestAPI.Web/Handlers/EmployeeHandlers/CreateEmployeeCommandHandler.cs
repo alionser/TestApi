@@ -4,7 +4,7 @@ using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Interfaces;
 
-namespace TestAPI.Web.Handlers.EmployeeCommandHandlers;
+namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
 public sealed class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeCommand>
 {

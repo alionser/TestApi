@@ -4,7 +4,7 @@ using TestAPI.Web.Commands.Employee;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
 
-namespace TestAPI.Web.Handlers.EmployeeCommandHandlers;
+namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
 public sealed class
     DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand> //TODO: подумать над наслдованием, у всех хендлеров одинаковый конструтор
