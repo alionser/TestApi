@@ -25,6 +25,14 @@ public sealed class EmployeeController : Controller
         return await handler.Handle(query, ct);
     }
 
+    [HttpPut]
+    public async Task<IActionResult> UpdateEmployee([FromServices] UpdateEmployeeCommandHandler handler,
+        [FromBody] UpdateEmployeeCommand command,
+        CancellationToken ct)
+    {
+        return await handler.Handle(command, ct);
+    }
+
     [HttpDelete, Route("{id:int}")]
     public async Task<IActionResult> DeleteEmployee([FromServices] DeleteEmployeeCommandHandler handler,
         [FromRoute] int id, //Можно ли параметры сразу к команде привязать?
