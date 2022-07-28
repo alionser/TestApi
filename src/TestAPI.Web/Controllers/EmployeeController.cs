@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands.Employee;
-using TestAPI.Web.Handlers.EmployeeCommandHandlers;
+using TestAPI.Web.Handlers.EmployeeHandlers;
+using TestAPI.Web.Queries;
 
 namespace TestAPI.Web.Controllers;
 
@@ -14,6 +15,14 @@ public sealed class EmployeeController : Controller
         CancellationToken ct)
     {
         return await handler.Handle(command, ct);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler,
+        [FromQuery] GetEmployeesQuery query,
+        CancellationToken ct)
+    {
+        return await handler.Handle(query, ct);
     }
 
     [HttpDelete, Route("{id:int}")]
