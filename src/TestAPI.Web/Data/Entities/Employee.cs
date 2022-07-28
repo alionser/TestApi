@@ -1,7 +1,10 @@
-﻿namespace TestAPI.Web.Data.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace TestAPI.Web.Data.Entities;
 
 public sealed class Employee
 {
+    [JsonIgnore]
     public int Id { get; set; }
 
     public string Name { get; set; }
@@ -15,6 +18,7 @@ public sealed class Employee
     public decimal Salary { get; set; }
     public int Age { get; set; }
 
+    [JsonIgnore]
     public Department Department { get; set; }
     public int DepartmentId { get; set; }
 }
