@@ -25,7 +25,8 @@ public class GetDepartmentsQueryHandler : IQueryHandler<GetDepartmentsQuery>
                 Employees = x.Employees
                     .Select(e => new
                     {
-                        Employ = string.Join(" ", new { e.Name, e.Surname, e.Patronymic }).Trim(),
+                        // Employ = string.Join(" ", new { e.Name, e.Surname, e.Patronymic }).Trim(),
+                        Employ = new { Name = e.Name, Surname = e.Surname, Patronymic = e.Patronymic },
                         Salary = e.Salary
                     }),
                 EmployeesCount = x.Employees.Count,

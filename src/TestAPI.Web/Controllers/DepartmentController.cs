@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands;
+using TestAPI.Web.Commands.Employee;
 using TestAPI.Web.Handlers;
 using TestAPI.Web.Queries;
 
@@ -37,7 +38,7 @@ public sealed class DepartmentController : Controller
     public async Task<IActionResult> DeleteDepartment([FromServices] DeleteDepartmentCommandHandler handler,
         [FromRoute] int id, CancellationToken ct)
     {
-        var command = new DeleteDepartmentCommand
+        var command = new DeleteDepartmentCommand //TODO: Добавить DeleteDepartmentCommand?
         {
             Id = id
         };
