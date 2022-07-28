@@ -24,7 +24,7 @@ public sealed class DataContext : DbContext
                 .IsRequired();
 
             entity.Property(x => x.Salary)
-                .HasPrecision(2);
+                .HasPrecision(8, 2);
 
             entity.Property(x => x.Position)
                 .HasDefaultValue(Position.None);
