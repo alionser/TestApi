@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands;
+using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Interfaces;
 
-namespace TestAPI.Web.Handlers;
+namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
 public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCommand>
 {

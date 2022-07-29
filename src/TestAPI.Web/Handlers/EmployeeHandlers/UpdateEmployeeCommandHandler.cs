@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TestAPI.Web.Commands.Employee;
+using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
 

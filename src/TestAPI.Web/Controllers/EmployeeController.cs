@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TestAPI.Web.Commands.Employee;
+using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Handlers.EmployeeHandlers;
 using TestAPI.Web.Queries;
 
@@ -18,7 +18,7 @@ public sealed class EmployeeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler,
+    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler, //нужно ли действие для получения единственного Employee
         [FromQuery] GetEmployeesQuery query,
         CancellationToken ct)
     {

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands;
+using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
 
-namespace TestAPI.Web.Handlers;
+namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
 public class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepartmentCommand>
 {

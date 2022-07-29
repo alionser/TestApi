@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TestAPI.Web.Commands.Employee;
+using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Interfaces;

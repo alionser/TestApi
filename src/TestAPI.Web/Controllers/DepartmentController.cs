@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands;
-using TestAPI.Web.Commands.Employee;
+using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Handlers;
+using TestAPI.Web.Handlers.DepartmentHandlers;
 using TestAPI.Web.Queries;
 
 namespace TestAPI.Web.Controllers;
 
 [ApiController]
-[Route("api/derpartments")]
+[Route("api/departments")]
 public sealed class DepartmentController : Controller
 {
     [HttpPost]
@@ -19,7 +20,7 @@ public sealed class DepartmentController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetDepartments([FromServices] GetDepartmentsQueryHandler handler,
+    public async Task<IActionResult> GetDepartments([FromServices] GetDepartmentsQueryHandler handler, //нужно ли действие для получения единственного Department
         [FromQuery] GetDepartmentsQuery query,
         CancellationToken ct)
     {
