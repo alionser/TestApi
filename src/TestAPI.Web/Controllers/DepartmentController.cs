@@ -20,10 +20,21 @@ public sealed class DepartmentController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetDepartments([FromServices] GetDepartmentsQueryHandler handler, //нужно ли действие для получения единственного Department
+    public async Task<IActionResult> GetDepartments([FromServices] GetDepartmentsQueryHandler handler,
         [FromQuery] GetDepartmentsQuery query,
         CancellationToken ct)
     {
+        return await handler.Handle(query, ct);
+    }
+    
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetDepartment([FromServices] GetDepartmentQueryHandler handler,
+        [FromRoute] int id,
+        CancellationToken ct)
+    {
+        var query = new GetDepartmentQuery { Id = id};
+        
         return await handler.Handle(query, ct);
     }
 
@@ -39,7 +50,7 @@ public sealed class DepartmentController : Controller
     public async Task<IActionResult> DeleteDepartment([FromServices] DeleteDepartmentCommandHandler handler,
         [FromRoute] int id, CancellationToken ct)
     {
-        var command = new DeleteDepartmentCommand //TODO: Добавить DeleteDepartmentCommand?
+        var command = new DeleteDepartmentCommand
         {
             Id = id
         };
