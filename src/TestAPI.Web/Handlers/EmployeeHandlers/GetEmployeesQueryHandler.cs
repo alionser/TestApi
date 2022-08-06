@@ -53,7 +53,7 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
         var normalizedInput = query.Surname?.Trim().ToUpperInvariant();
         if (!string.IsNullOrEmpty(normalizedInput))
         {
-            employeesQuery = employeesQuery.Where(e => e.Surname.ToUpper() == normalizedInput);
+            employeesQuery = employeesQuery.Where(e => e.Surname.ToUpper().Contains(normalizedInput));
         }
 
         if (query.Skip.HasValue)
