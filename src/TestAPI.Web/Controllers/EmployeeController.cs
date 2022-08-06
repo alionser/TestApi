@@ -18,10 +18,24 @@ public sealed class EmployeeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler, //нужно ли действие для получения единственного Employee
+    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler,
         [FromQuery] GetEmployeesQuery query,
         CancellationToken ct)
     {
+        return await handler.Handle(query, ct);
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetEmployee([FromServices] GetEmployeeQueryHandler handler,
+        [FromRoute] int id,
+        CancellationToken ct)
+    {
+        var query = new GetEmployeeQuery
+        {
+            Id = id
+        };
+
         return await handler.Handle(query, ct);
     }
 
@@ -33,16 +47,17 @@ public sealed class EmployeeController : Controller
         return await handler.Handle(command, ct);
     }
 
-    [HttpDelete, Route("{id:int}")]
+    [HttpDelete]
+    [Route("{id:int}")]
     public async Task<IActionResult> DeleteEmployee([FromServices] DeleteEmployeeCommandHandler handler,
-        [FromRoute] int id, //Можно ли параметры сразу к команде привязать?
+        [FromRoute] int id,
         CancellationToken ct)
     {
         var command = new DeleteEmployeeCommand()
         {
             Id = id
         };
-        
+
         return await handler.Handle(command, ct);
     }
 }
