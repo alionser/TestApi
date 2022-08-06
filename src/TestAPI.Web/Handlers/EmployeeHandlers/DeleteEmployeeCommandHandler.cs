@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
@@ -17,14 +18,14 @@ public sealed class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmploye
 
     public async Task<ResponseModel> Handle(DeleteEmployeeCommand command, CancellationToken ct)
     {
-        var deletedEmployee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.Id, ct);
+        var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.Id, ct);
 
-        if (deletedEmployee == null)
+        if (employee == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(employee)} not found", (int)HttpStatusCode.NotFound);
         }
 
-        _dataContext.Employees.Remove(deletedEmployee);
+        _dataContext.Employees.Remove(employee);
         await _dataContext.SaveChangesAsync(ct);
 
         return new ResponseModel();

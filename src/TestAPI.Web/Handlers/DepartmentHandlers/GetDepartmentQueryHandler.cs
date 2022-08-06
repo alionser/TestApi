@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -22,7 +23,7 @@ public sealed class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery
 
         if (department == null)
         {
-            throw new Exception("Database error");
+            throw new BadHttpRequestException($"{nameof(department)} not found", (int)HttpStatusCode.NotFound);
         }
 
         var resultModel = new GetDepartmentResultModel

@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
@@ -23,16 +24,16 @@ public sealed class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmploye
 
         if (employee == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(employee)} not found", (int)HttpStatusCode.NotFound);
         }
 
         var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == command.DepartmentId, ct);
         if (department == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(department)} not found", (int)HttpStatusCode.NotFound);
         }
-        
-        employee.Name = command.Name.Trim(); 
+
+        employee.Name = command.Name.Trim();
         employee.Surname = command.Surname.Trim();
         employee.Patronymic = command.Patronymic.Trim();
 
