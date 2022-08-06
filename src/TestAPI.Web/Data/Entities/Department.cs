@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TestAPI.Web.Data.Entities;
+﻿namespace TestAPI.Web.Data.Entities;
 
 public sealed class Department
 {

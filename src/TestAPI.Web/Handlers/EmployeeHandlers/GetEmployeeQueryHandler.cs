@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -22,7 +23,7 @@ public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, Ge
 
         if (employee == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(employee)} not found", (int)HttpStatusCode.NotFound);
         }
 
         var employeeResultModel = new GetEmployeeResultModel

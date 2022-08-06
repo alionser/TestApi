@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -21,18 +22,18 @@ public sealed class UploadPhotoCommandHandler : ICommandHandler<UploadPhotoComma
 
         if (employee == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(employee)} not found", (int)HttpStatusCode.NotFound);
         }
 
         var file = new MemoryStream();
-        
+
         if (command.Photo == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(file)} not uploaded");
         }
-        
+
         await command.Photo.CopyToAsync(file, ct);
-        
+
         var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "files");
         var fullFilePath = Path.Combine(directoryPath, command.Photo.FileName);
 

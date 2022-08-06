@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -22,7 +23,7 @@ public sealed class UpdateDepartmentCommandHandler : ICommandHandler<UpdateDepar
 
         if (department == null)
         {
-            throw new Exception();
+            throw new BadHttpRequestException($"{nameof(department)} not found", (int)HttpStatusCode.NotFound);
         }
 
         department.Name = command.Name?.Trim();

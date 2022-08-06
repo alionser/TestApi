@@ -3,6 +3,7 @@ using Autofac;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.Middlewares;
 
 namespace TestAPI.Web;
 
@@ -57,10 +58,13 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+
         app.UseRouting();
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseEndpoints(builder => { builder.MapControllers(); });
 
