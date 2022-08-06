@@ -30,8 +30,8 @@ public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, Ge
             Name = employee.Name,
             Surname = employee.Surname,
             Patronymic = employee.Patronymic,
-
-            Salary = employee.Salary
+            Salary = employee.Salary,
+            PhotoUrl = employee.PhotoUri.ToString()
         };
 
         return new ResponseModel<GetEmployeeResultModel> { Result = employeeResultModel };

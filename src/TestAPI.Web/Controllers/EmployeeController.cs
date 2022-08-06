@@ -26,6 +26,15 @@ public sealed class EmployeeController : Controller
         return await handler.Handle(query, ct);
     }
 
+    [HttpPost]
+    [Route("upload-photo")]
+    public async Task<ResponseModel> UploadPhoto([FromServices] UploadPhotoCommandHandler handler,
+        [FromQuery] UploadPhotoCommand command,
+        CancellationToken ct)
+    {
+        return await handler.Handle(command, ct);
+    }
+
     [HttpGet]
     [Route("{id:int}")]
     public async Task<ResponseModel> GetEmployee([FromServices] GetEmployeeQueryHandler handler,

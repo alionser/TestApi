@@ -11,8 +11,6 @@ public sealed class CreateEmployeeCommand : ICommand
 
     public Position Position { get; set; }
 
-    public Uri PhotoUri { get; set; }
-
     public decimal Salary { get; set; }
     public int Age { get; set; }
 

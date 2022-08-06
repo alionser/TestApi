@@ -7,4 +7,6 @@ public sealed class GetEmployeeResultModel
     public string Patronymic { get; set; }
 
     public decimal Salary { get; set; }
+    
+    public string PhotoUrl { get; set; }
 }

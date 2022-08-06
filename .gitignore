@@ -351,3 +351,5 @@ MigrationBackup/
 src/.idea/
 
 src/TestAPI.Web/appsettings.Development.json
+
+src/TestAPI.Web/files/

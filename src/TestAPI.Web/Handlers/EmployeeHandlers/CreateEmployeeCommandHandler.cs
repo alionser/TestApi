@@ -22,13 +22,9 @@ public sealed class CreateEmployeeCommandHandler : ICommandHandler<CreateEmploye
             Name = command.Name,
             Surname = command.Surname,
             Patronymic = command.Patronymic,
-
             Position = command.Position,
-            PhotoUri = command.PhotoUri,
-
             Salary = command.Salary,
             Age = command.Age,
-
             DepartmentId = command.DepartmentId
         };
 
