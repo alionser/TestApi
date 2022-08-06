@@ -7,7 +7,7 @@ using TestAPI.Web.ResponseModels.Employees;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
-public class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, GetEmployeeResultModel>
+public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, GetEmployeeResultModel>
 {
     private readonly DataContext _dataContext;
 

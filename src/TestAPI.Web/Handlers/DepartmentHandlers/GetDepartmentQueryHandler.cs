@@ -7,7 +7,7 @@ using TestAPI.Web.ResponseModels.Departments;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
-public class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery, GetDepartmentResultModel>
+public sealed class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery, GetDepartmentResultModel>
 {
     private readonly DataContext _dataContext;
 

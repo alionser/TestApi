@@ -6,7 +6,7 @@ using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
-public class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepartmentCommand>
+public sealed class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepartmentCommand>
 {
     private readonly DataContext _dataContext;
 

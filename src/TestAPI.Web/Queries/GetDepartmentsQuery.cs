@@ -2,6 +2,6 @@
 
 namespace TestAPI.Web.Queries;
 
-public class GetDepartmentsQuery : IQuery
+public sealed class GetDepartmentsQuery : IQuery
 {
 }

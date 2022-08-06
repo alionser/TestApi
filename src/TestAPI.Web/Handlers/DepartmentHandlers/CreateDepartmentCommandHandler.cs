@@ -6,7 +6,7 @@ using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
-public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCommand>
+public sealed class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCommand>
 {
     private readonly DataContext _dataContext;
 

@@ -9,7 +9,7 @@ using TestAPI.Web.ResponseModels.Employees;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
-public class GetDepartmentsQueryHandler : IQueryHandler<GetDepartmentsQuery, GetDepartmentsResultModel>
+public sealed class GetDepartmentsQueryHandler : IQueryHandler<GetDepartmentsQuery, GetDepartmentsResultModel>
 {
     private readonly DataContext _dataContext;
 

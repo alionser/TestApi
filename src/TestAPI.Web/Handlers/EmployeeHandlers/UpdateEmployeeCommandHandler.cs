@@ -6,7 +6,7 @@ using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
-public class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmployeeCommand>
+public sealed class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmployeeCommand>
 {
     private readonly DataContext _dataContext;
 
@@ -18,15 +18,21 @@ public class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmployeeComman
     public async Task<ResponseModel> Handle(UpdateEmployeeCommand command, CancellationToken ct)
     {
         var employee = await _dataContext.Employees
-            .FirstOrDefaultAsync(e => e.Id == command.Id, ct); //Не очень удачное имя, он еще не обновлен
+            .Include(x => x.Department)
+            .FirstOrDefaultAsync(e => e.Id == command.Id, ct);
 
         if (employee == null)
         {
             throw new Exception();
         }
 
-        //вынести в отдельный метод
-        employee.Name = command.Name.Trim(); //  может стоить добавить проверку свойств command на null?
+        var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == command.DepartmentId, ct);
+        if (department == null)
+        {
+            throw new Exception();
+        }
+        
+        employee.Name = command.Name.Trim(); 
         employee.Surname = command.Surname.Trim();
         employee.Patronymic = command.Patronymic.Trim();
 
@@ -36,8 +42,8 @@ public class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmployeeComman
         employee.Salary = command.Salary;
         employee.Age = command.Age;
 
-        employee.DepartmentId = command.DepartmentId; //Что делать с навигационным свойством Department?
-        employee.Department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == command.Id, ct);
+        employee.Department = department;
+        employee.DepartmentId = department.Id;
 
         await _dataContext.SaveChangesAsync(ct);
         return new ResponseModel();

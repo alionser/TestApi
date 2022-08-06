@@ -6,8 +6,7 @@ using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
-public sealed class
-    DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand>
+public sealed class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand>
 {
     private readonly DataContext _dataContext;
 
