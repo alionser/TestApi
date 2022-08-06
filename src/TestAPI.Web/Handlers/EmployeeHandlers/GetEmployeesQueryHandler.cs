@@ -17,7 +17,6 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery>
 
     public async Task<JsonResult> Handle(GetEmployeesQuery query, CancellationToken ct)
     {
-        // var employees = await _dataContext.Employees.ToArrayAsync(ct);
         var employees = await _dataContext.Employees
             .Where(query.DepartmentId == null ?
                 e => true : e => e.DepartmentId == query.DepartmentId) //Оно того стоит?

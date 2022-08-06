@@ -17,28 +17,28 @@ public class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmployeeComman
 
     public async Task<JsonResult> Handle(UpdateEmployeeCommand command, CancellationToken ct)
     {
-        var updatedEmployee = await _dataContext.Employees.
+        var employee = await _dataContext.Employees.
             FirstOrDefaultAsync(e => e.Id == command.Id, ct); //Не очень удачное имя, он еще не обновлен
 
-        if (updatedEmployee == null)
+        if (employee == null)
             return new JsonResult($"Employee with Id: {command.Id} not found"); //грамматика!
 
         //вынести в отдельный метод
-        updatedEmployee.Name = command.Name.Trim(); //  может стоить добавить проверку свойств command на null?
-        updatedEmployee.Surname = command.Surname.Trim();
-        updatedEmployee.Patronymic = command.Patronymic.Trim();
+        employee.Name = command.Name.Trim(); //  может стоить добавить проверку свойств command на null?
+        employee.Surname = command.Surname.Trim();
+        employee.Patronymic = command.Patronymic.Trim();
 
-        updatedEmployee.Position = command.Position;
-        updatedEmployee.PhotoUri = command.PhotoUri;
+        employee.Position = command.Position;
+        employee.PhotoUri = command.PhotoUri;
         
-        updatedEmployee.Salary = command.Salary;
-        updatedEmployee.Age = command.Age;
+        employee.Salary = command.Salary;
+        employee.Age = command.Age;
 
-        updatedEmployee.DepartmentId = command.DepartmentId; //Что делать с навигационным свойством Department?
-        updatedEmployee.Department = await _dataContext.Departments.
+        employee.DepartmentId = command.DepartmentId; //Что делать с навигационным свойством Department?
+        employee.Department = await _dataContext.Departments.
             FirstOrDefaultAsync(d => d.Id == command.Id, ct);
 
         await _dataContext.SaveChangesAsync(ct);
-        return new JsonResult(updatedEmployee);
+        return new JsonResult(employee);
     }
 }
