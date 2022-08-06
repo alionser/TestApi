@@ -68,8 +68,7 @@ namespace TestAPI.Web.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<decimal>("Salary")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Surname")
                         .IsRequired()

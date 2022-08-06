@@ -1,12 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
 using TestAPI.Web.Queries;
+using TestAPI.Web.ResponseModels;
+using TestAPI.Web.ResponseModels.Employees;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
-public class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery>
+public class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, GetEmployeeResultModel>
 {
     private readonly DataContext _dataContext;
 
@@ -15,10 +16,24 @@ public class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery>
         _dataContext = dataContext;
     }
 
-    public async Task<JsonResult> Handle(GetEmployeeQuery query, CancellationToken ct)
+    public async Task<ResponseModel<GetEmployeeResultModel>> Handle(GetEmployeeQuery query, CancellationToken ct)
     {
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == query.Id, ct);
 
-        return new JsonResult(employee);
+        if (employee == null)
+        {
+            throw new Exception();
+        }
+
+        var employeeResultModel = new GetEmployeeResultModel
+        {
+            Name = employee.Name,
+            Surname = employee.Surname,
+            Patronymic = employee.Patronymic,
+
+            Salary = employee.Salary
+        };
+
+        return new ResponseModel<GetEmployeeResultModel> { Result = employeeResultModel };
     }
 }

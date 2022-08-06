@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
@@ -15,25 +15,25 @@ public sealed class CreateEmployeeCommandHandler : ICommandHandler<CreateEmploye
         _dataContext = dataContext;
     }
 
-    public async Task<JsonResult> Handle(CreateEmployeeCommand command, CancellationToken ct)
+    public async Task<ResponseModel> Handle(CreateEmployeeCommand command, CancellationToken ct)
     {
         var employee = new Employee
         {
             Name = command.Name,
             Surname = command.Surname,
             Patronymic = command.Patronymic,
-            
+
             Position = command.Position,
             PhotoUri = command.PhotoUri,
-            
+
             Salary = command.Salary,
             Age = command.Age,
-            
+
             DepartmentId = command.DepartmentId
         };
 
         await _dataContext.AddAsync(employee, ct);
         await _dataContext.SaveChangesAsync(ct);
-        return new JsonResult(employee);
+        return new ResponseModel();
     }
 }

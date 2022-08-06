@@ -11,8 +11,8 @@ using TestAPI.Web.Data;
 namespace TestAPI.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220728161223_FixEployeeSalary")]
-    partial class FixEployeeSalary
+    [Migration("20220806142306_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,8 +70,7 @@ namespace TestAPI.Web.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<decimal>("Salary")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Surname")
                         .IsRequired()

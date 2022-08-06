@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Handlers.EmployeeHandlers;
 
@@ -16,18 +16,18 @@ public sealed class
         _dataContext = dataContext;
     }
 
-    public async Task<JsonResult> Handle(DeleteEmployeeCommand command, CancellationToken ct)
+    public async Task<ResponseModel> Handle(DeleteEmployeeCommand command, CancellationToken ct)
     {
         var deletedEmployee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.Id, ct);
 
         if (deletedEmployee == null)
         {
-            return new JsonResult($"Failed to find Employee with Id:{command.Id}");
+            throw new Exception();
         }
 
         _dataContext.Employees.Remove(deletedEmployee);
         await _dataContext.SaveChangesAsync(ct);
 
-        return new JsonResult($"Ok, Employee with Id: {command.Id} was deleted.");
+        return new ResponseModel();
     }
 }

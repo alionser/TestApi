@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.Queries;
+using TestAPI.Web.ResponseModels;
+using TestAPI.Web.ResponseModels.Departments;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
-public class GetDepartmentQueryHandler : IQueryHandler<IQuery>
+public class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery, GetDepartmentResultModel>
 {
     private readonly DataContext _dataContext;
 
@@ -14,10 +16,22 @@ public class GetDepartmentQueryHandler : IQueryHandler<IQuery>
         _dataContext = dataContext;
     }
 
-    public async Task<JsonResult> Handle(IQuery query, CancellationToken ct)
+    public async Task<ResponseModel<GetDepartmentResultModel>> Handle(GetDepartmentQuery query, CancellationToken ct)
     {
-        var department = await _dataContext.Departments.FirstOrDefaultAsync(ct);
+        var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == query.Id, ct);
 
-        return new JsonResult(department);
+        if (department == null)
+        {
+            throw new Exception("Database error");
+        }
+
+        var resultModel = new GetDepartmentResultModel
+        {
+            Id = department.Id,
+            Name = department.Name
+        };
+
+
+        return new ResponseModel<GetDepartmentResultModel> { Result = resultModel };
     }
 }

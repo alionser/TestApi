@@ -2,8 +2,10 @@ using TestAPI.Web.Interfaces;
 
 namespace TestAPI.Web.Queries;
 
-public sealed class GetEmployeesQuery : IQuery //Совпадают Query - параметры запроса и Query - концепция CQS
+public sealed class GetEmployeesQuery : IQuery
 {
-    public string Surname { get; set; } //TODO: разобраться с рагистром в запросе
+    public string Surname { get; set; }
     public int? DepartmentId { get; set; }
+    public int? Skip { get; set; }
+    public int? Count { get; set; }
 }

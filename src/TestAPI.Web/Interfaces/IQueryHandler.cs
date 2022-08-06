@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Interfaces;
 
-public interface IQueryHandler<in TQuery> : IHandler
+public interface IQueryHandler<in TQuery, TResult> : IHandler
     where TQuery : IQuery
 {
-    public Task<JsonResult> Handle(TQuery query, CancellationToken ct);
+    public Task<ResponseModel<TResult>> Handle(TQuery query, CancellationToken ct);
 }

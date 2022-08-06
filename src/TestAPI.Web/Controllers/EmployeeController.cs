@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Handlers.EmployeeHandlers;
 using TestAPI.Web.Queries;
+using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Controllers;
 
@@ -10,7 +11,7 @@ namespace TestAPI.Web.Controllers;
 public sealed class EmployeeController : Controller
 {
     [HttpPost]
-    public async Task<IActionResult> CreateEmployee([FromServices] CreateEmployeeCommandHandler handler,
+    public async Task<ResponseModel> CreateEmployee([FromServices] CreateEmployeeCommandHandler handler,
         [FromBody] CreateEmployeeCommand command,
         CancellationToken ct)
     {
@@ -18,7 +19,7 @@ public sealed class EmployeeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetEmployees([FromServices] GetEmployeesQueryHandler handler,
+    public async Task<ResponseModel> GetEmployees([FromServices] GetEmployeesQueryHandler handler,
         [FromQuery] GetEmployeesQuery query,
         CancellationToken ct)
     {
@@ -27,7 +28,7 @@ public sealed class EmployeeController : Controller
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<IActionResult> GetEmployee([FromServices] GetEmployeeQueryHandler handler,
+    public async Task<ResponseModel> GetEmployee([FromServices] GetEmployeeQueryHandler handler,
         [FromRoute] int id,
         CancellationToken ct)
     {
@@ -40,7 +41,7 @@ public sealed class EmployeeController : Controller
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateEmployee([FromServices] UpdateEmployeeCommandHandler handler,
+    public async Task<ResponseModel> UpdateEmployee([FromServices] UpdateEmployeeCommandHandler handler,
         [FromBody] UpdateEmployeeCommand command,
         CancellationToken ct)
     {
@@ -49,7 +50,7 @@ public sealed class EmployeeController : Controller
 
     [HttpDelete]
     [Route("{id:int}")]
-    public async Task<IActionResult> DeleteEmployee([FromServices] DeleteEmployeeCommandHandler handler,
+    public async Task<ResponseModel> DeleteEmployee([FromServices] DeleteEmployeeCommandHandler handler,
         [FromRoute] int id,
         CancellationToken ct)
     {
