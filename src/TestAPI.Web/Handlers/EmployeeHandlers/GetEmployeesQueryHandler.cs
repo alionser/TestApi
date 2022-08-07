@@ -21,7 +21,7 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
     {
         var employeesQuery = _dataContext.Employees.AsQueryable();
         var totalCount = await employeesQuery.CountAsync(ct);
-        var employees = await ApplyFilter(employeesQuery, query)
+        var employees = await ApplyPagination(ApplyFilter(employeesQuery, query), query)
             .Select(e => new ShortEmployModel
                 {
                     Name = e.Name,
@@ -56,6 +56,11 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
             employeesQuery = employeesQuery.Where(e => e.Surname.ToUpper().Contains(normalizedInput));
         }
 
+        return employeesQuery;
+    }
+
+    private static IQueryable<Employee> ApplyPagination(IQueryable<Employee> employeesQuery, GetEmployeesQuery query)
+    {
         if (query.Skip.HasValue)
         {
             employeesQuery = employeesQuery.Skip(query.Skip.Value);
@@ -63,7 +68,7 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
 
         if (query.Count.HasValue)
         {
-            employeesQuery = employeesQuery.Skip(query.Count.Value);
+            employeesQuery = employeesQuery.Take(query.Count.Value);
         }
 
         return employeesQuery;
