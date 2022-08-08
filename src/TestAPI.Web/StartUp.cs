@@ -2,8 +2,8 @@
 using Autofac;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
+using TestAPI.Web.Extentsions;
 using TestAPI.Web.Interfaces;
-using TestAPI.Web.Middlewares;
 
 namespace TestAPI.Web;
 

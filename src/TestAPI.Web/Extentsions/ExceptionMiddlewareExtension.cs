@@ -1,4 +1,6 @@
-namespace TestAPI.Web.Middlewares;
+using TestAPI.Web.Middlewares;
+
+namespace TestAPI.Web.Extentsions;
 
 public static class ExceptionMiddlewareExtension
 {

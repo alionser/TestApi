@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
+using TestAPI.Web.Extentsions;
 using TestAPI.Web.Interfaces;
 using TestAPI.Web.Queries;
 using TestAPI.Web.ResponseModels;
@@ -21,7 +22,9 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
     {
         var employeesQuery = _dataContext.Employees.AsQueryable();
         var totalCount = await employeesQuery.CountAsync(ct);
-        var employees = await ApplyPagination(ApplyFilter(employeesQuery, query), query)
+        var employees = await employeesQuery
+            .ApplyFilter(query)
+            .ApplyPagination(query)
             .Select(e => new ShortEmployModel
                 {
                     Name = e.Name,
@@ -41,36 +44,5 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
             Employees = employees
         };
         return new ResponseModel<GetEmployeesResultModel> { Result = resultModel };
-    }
-
-    private static IQueryable<Employee> ApplyFilter(IQueryable<Employee> employeesQuery, GetEmployeesQuery query)
-    {
-        if (query.DepartmentId.HasValue)
-        {
-            employeesQuery = employeesQuery.Where(e => e.DepartmentId == query.DepartmentId.Value);
-        }
-
-        var normalizedInput = query.Surname?.Trim().ToUpperInvariant();
-        if (!string.IsNullOrEmpty(normalizedInput))
-        {
-            employeesQuery = employeesQuery.Where(e => e.Surname.ToUpper().Contains(normalizedInput));
-        }
-
-        return employeesQuery;
-    }
-
-    private static IQueryable<Employee> ApplyPagination(IQueryable<Employee> employeesQuery, GetEmployeesQuery query)
-    {
-        if (query.Skip.HasValue)
-        {
-            employeesQuery = employeesQuery.Skip(query.Skip.Value);
-        }
-
-        if (query.Count.HasValue)
-        {
-            employeesQuery = employeesQuery.Take(query.Count.Value);
-        }
-
-        return employeesQuery;
     }
 }
