@@ -12,7 +12,7 @@ public sealed class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmploye
 {
     private readonly DataContext _dataContext;
     private readonly IValidator<UpdateEmployeeCommand> _validator;
-    
+
     public UpdateEmployeeCommandHandler(DataContext dataContext, IValidator<UpdateEmployeeCommand> validator)
     {
         _dataContext = dataContext;
@@ -26,7 +26,7 @@ public sealed class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmploye
         {
             throw new ValidationException($"{nameof(command)} of {typeof(UpdateEmployeeCommand)} failed validation!");
         }
-        
+
         var employee = await _dataContext.Employees
             .Include(x => x.Department)
             .FirstOrDefaultAsync(e => e.Id == command.Id, ct);

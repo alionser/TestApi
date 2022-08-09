@@ -1,4 +1,3 @@
-using System.Data;
 using FluentValidation;
 using TestAPI.Web.Queries;
 
@@ -16,11 +15,11 @@ public sealed class GetEmployeesQueryValidator : AbstractValidator<GetEmployeesQ
         RuleFor(q => q.DepartmentId)
             .GreaterThanOrEqualTo(0)
             .When(q => q.DepartmentId.HasValue);
-        
+
         RuleFor(q => q.Skip)
             .GreaterThanOrEqualTo(0)
             .When(q => q.Skip.HasValue);
-        
+
         //или строго больше?
         RuleFor(q => q.Count)
             .GreaterThanOrEqualTo(0)

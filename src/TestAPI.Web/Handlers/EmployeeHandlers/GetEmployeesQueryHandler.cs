@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
-using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Extentsions;
 using TestAPI.Web.Interfaces;
 using TestAPI.Web.Queries;
@@ -28,7 +27,7 @@ public sealed class GetEmployeesQueryHandler : IQueryHandler<GetEmployeesQuery, 
         {
             throw new ValidationException($"{nameof(query)} of {typeof(GetEmployeesQuery)} failed validation!");
         }
-        
+
         var employeesQuery = _dataContext.Employees.AsQueryable();
         var totalCount = await employeesQuery.CountAsync(ct);
         var employees = await employeesQuery

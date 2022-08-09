@@ -3,7 +3,7 @@ using TestAPI.Web.Commands.EmployeeCommands;
 
 namespace TestAPI.Web.Validators.Employee;
 
-public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
+public sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
 {
     public UpdateEmployeeCommandValidator()
     {
@@ -11,12 +11,12 @@ public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCo
             .NotNull()
             .NotEmpty()
             .Length(1, 50);
-        
+
         RuleFor(c => c.Surname)
             .NotNull()
             .NotEmpty()
             .Length(1, 50);
-        
+
         RuleFor(c => c.Patronymic)
             .NotNull()
             .NotEmpty()
@@ -31,7 +31,7 @@ public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCo
 
         RuleFor(c => c.Position)
             .IsInEnum();
-        
+
         //или сделать проверку на существование указанного Department?
         RuleFor(c => c.DepartmentId)
             .GreaterThanOrEqualTo(0);

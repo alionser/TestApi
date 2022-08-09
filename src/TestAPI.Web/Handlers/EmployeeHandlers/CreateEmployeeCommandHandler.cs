@@ -25,7 +25,7 @@ public sealed class CreateEmployeeCommandHandler : ICommandHandler<CreateEmploye
         {
             throw new ValidationException($"{nameof(command)} of {typeof(CreateEmployeeCommand)} failed validation!");
         }
-        
+
         var employee = new Employee
         {
             Name = command.Name,

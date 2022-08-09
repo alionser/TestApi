@@ -26,7 +26,7 @@ public sealed class UploadPhotoCommandHandler : ICommandHandler<UploadPhotoComma
         {
             throw new ValidationException($"{nameof(command)} of {typeof(UploadPhotoCommand)} failed validation!");
         }
-        
+
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.EmployeeId, ct);
 
         if (employee == null)

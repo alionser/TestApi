@@ -1,11 +1,9 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Data.Entities;
 using TestAPI.Web.Interfaces;
 using TestAPI.Web.ResponseModels;
-using TestAPI.Web.Validators.Department;
 
 namespace TestAPI.Web.Handlers.DepartmentHandlers;
 
@@ -27,7 +25,7 @@ public sealed class CreateDepartmentCommandHandler : ICommandHandler<CreateDepar
         {
             throw new ValidationException($"{nameof(command)} of {typeof(CreateDepartmentCommand)} failed validation!");
         }
-        
+
         var department = new Department { Name = command.Name };
         await _dataContext.Departments.AddAsync(department, ct);
         await _dataContext.SaveChangesAsync(ct);

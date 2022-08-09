@@ -41,7 +41,7 @@ public class Startup
             .Where(t => t.Name.EndsWith("Validator"))
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType(typeof(DataContext))
             .As<DataContext>()
             .InstancePerLifetimeScope();
@@ -66,19 +66,19 @@ public class Startup
         builder.RegisterType(typeof(CreateDepartmentCommandValidator))
             .As<IValidator<CreateDepartmentCommand>>()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType(typeof(DeleteDepartmentCommandValidator))
             .As<IValidator<DeleteDepartmentCommand>>()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType(typeof(UpdateDepartmentCommandValidator))
             .As<IValidator<UpdateDepartmentCommand>>()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType(typeof(GetDepartmentQueryValidator))
             .As<IValidator<GetDepartmentQuery>>()
             .InstancePerLifetimeScope();
-        
+
         builder.RegisterType(typeof(GetDepartmentsQueryValidator))
             .As<IValidator<GetDepartmentsQuery>>()
             .InstancePerLifetimeScope();

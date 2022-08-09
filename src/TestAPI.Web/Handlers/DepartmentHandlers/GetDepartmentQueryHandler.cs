@@ -1,6 +1,5 @@
 using System.Net;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -28,7 +27,7 @@ public sealed class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery
         {
             throw new ValidationException($"{nameof(query)} of {typeof(GetDepartmentQuery)} failed validation!");
         }
-        
+
         var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == query.Id, ct);
 
         if (department == null)

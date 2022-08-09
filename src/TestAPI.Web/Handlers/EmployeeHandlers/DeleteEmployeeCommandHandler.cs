@@ -26,7 +26,7 @@ public sealed class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmploye
         {
             throw new ValidationException($"{nameof(command)} of {typeof(DeleteEmployeeCommand)} failed validation!");
         }
-        
+
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.Id, ct);
 
         if (employee == null)

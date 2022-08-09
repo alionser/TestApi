@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
@@ -27,7 +26,7 @@ public sealed class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepar
         {
             throw new ValidationException($"{nameof(command)} of {typeof(DeleteDepartmentCommand)} failed validation!");
         }
-        
+
         var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == command.Id, ct);
         if (department == null)
         {

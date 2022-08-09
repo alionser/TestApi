@@ -27,7 +27,7 @@ public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, Ge
         {
             throw new ValidationException($"{nameof(query)} of {typeof(GetEmployeeQuery)} failed validation!");
         }
-        
+
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == query.Id, ct);
 
         if (employee == null)

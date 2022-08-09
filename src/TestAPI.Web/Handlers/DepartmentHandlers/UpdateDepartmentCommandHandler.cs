@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
@@ -27,7 +26,7 @@ public sealed class UpdateDepartmentCommandHandler : ICommandHandler<UpdateDepar
         {
             throw new ValidationException($"{nameof(command)} of {typeof(UpdateDepartmentCommand)} failed validation!");
         }
-        
+
         var department = await _dataContext.Departments
             .FirstOrDefaultAsync(x => x.Id == command.Id, ct);
 

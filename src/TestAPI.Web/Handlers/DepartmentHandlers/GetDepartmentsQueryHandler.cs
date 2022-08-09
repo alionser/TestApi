@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
@@ -29,7 +28,7 @@ public sealed class GetDepartmentsQueryHandler : IQueryHandler<GetDepartmentsQue
         {
             throw new ValidationException($"{nameof(query)} of {typeof(GetDepartmentsQuery)} failed validation!");
         }
-        
+
         var departments = await _dataContext.Departments
             .Select(x => new DepartmentsListItem
             {
