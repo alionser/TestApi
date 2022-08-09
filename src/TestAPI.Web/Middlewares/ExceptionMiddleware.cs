@@ -23,6 +23,7 @@ public sealed class ExceptionMiddleware
         catch (Exception exception)
         {
             var result = HandleException(context, exception);
+            context.Response.ContentType = "application/json; charset=utf-8";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }
