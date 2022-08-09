@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
 using Autofac;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Extentsions;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.Validators.Department;
 
 namespace TestAPI.Web;
 
@@ -31,6 +34,12 @@ public class Startup
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
+        //вынести настройку валидаторов в отдельный метод?
+        //регистрировать по коннкретному типу, или IValidator<T>?
+        builder.RegisterType(typeof(CreateDepartmentCommandValidator))
+            .As<IValidator<CreateDepartmentCommand>>()
+            .InstancePerLifetimeScope();
+        
         builder.RegisterType(typeof(DataContext))
             .As<DataContext>()
             .InstancePerLifetimeScope();

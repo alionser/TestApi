@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using TestAPI.Web.ResponseModels;
 
 namespace TestAPI.Web.Middlewares;
@@ -31,6 +32,7 @@ public sealed class ExceptionMiddleware
         var statusCode = exception switch
         {
             BadHttpRequestException badRequestException => badRequestException.StatusCode,
+            ValidationException validationException => (int)HttpStatusCode.UnprocessableEntity,
             _ => (int)HttpStatusCode.InternalServerError,
         };
 
