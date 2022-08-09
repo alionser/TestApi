@@ -1,4 +1,5 @@
 using System.Net;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -11,14 +12,22 @@ namespace TestAPI.Web.Handlers.EmployeeHandlers;
 public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, GetEmployeeResultModel>
 {
     private readonly DataContext _dataContext;
+    private readonly IValidator<GetEmployeeQuery> _validator;
 
-    public GetEmployeeQueryHandler(DataContext dataContext)
+    public GetEmployeeQueryHandler(DataContext dataContext, IValidator<GetEmployeeQuery> validator)
     {
         _dataContext = dataContext;
+        _validator = validator;
     }
 
     public async Task<ResponseModel<GetEmployeeResultModel>> Handle(GetEmployeeQuery query, CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(query, ct);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException($"{nameof(query)} of {typeof(GetEmployeeQuery)} failed validation!");
+        }
+        
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == query.Id, ct);
 
         if (employee == null)

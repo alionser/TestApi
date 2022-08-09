@@ -1,4 +1,5 @@
 using System.Net;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
@@ -10,14 +11,22 @@ namespace TestAPI.Web.Handlers.EmployeeHandlers;
 public sealed class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand>
 {
     private readonly DataContext _dataContext;
+    private readonly IValidator<DeleteEmployeeCommand> _validator;
 
-    public DeleteEmployeeCommandHandler(DataContext dataContext)
+    public DeleteEmployeeCommandHandler(DataContext dataContext, IValidator<DeleteEmployeeCommand> validator)
     {
         _dataContext = dataContext;
+        _validator = validator;
     }
 
     public async Task<ResponseModel> Handle(DeleteEmployeeCommand command, CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(command, ct);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException($"{nameof(command)} of {typeof(DeleteEmployeeCommand)} failed validation!");
+        }
+        
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.Id, ct);
 
         if (employee == null)

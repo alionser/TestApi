@@ -39,7 +39,8 @@ public class Startup
         //Или так проще?
         builder.RegisterAssemblyTypes(GetType().GetTypeInfo().Assembly)
             .Where(t => t.Name.EndsWith("Validator"))
-            .AsImplementedInterfaces();
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
         
         builder.RegisterType(typeof(DataContext))
             .As<DataContext>()

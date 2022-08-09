@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Commands.EmployeeCommands;
 using TestAPI.Web.Data;
@@ -10,14 +11,22 @@ namespace TestAPI.Web.Handlers.EmployeeHandlers;
 public sealed class UploadPhotoCommandHandler : ICommandHandler<UploadPhotoCommand>
 {
     private readonly DataContext _dataContext;
+    private readonly IValidator<UploadPhotoCommand> _validator;
 
-    public UploadPhotoCommandHandler(DataContext dataContext)
+    public UploadPhotoCommandHandler(DataContext dataContext, IValidator<UploadPhotoCommand> validator)
     {
         _dataContext = dataContext;
+        _validator = validator;
     }
 
     public async Task<ResponseModel> Handle(UploadPhotoCommand command, CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(command, ct);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException($"{nameof(command)} of {typeof(UploadPhotoCommand)} failed validation!");
+        }
+        
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.EmployeeId, ct);
 
         if (employee == null)
