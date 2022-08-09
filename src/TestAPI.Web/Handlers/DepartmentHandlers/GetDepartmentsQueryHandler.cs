@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Web.Data;
 using TestAPI.Web.Interfaces;
@@ -12,14 +14,22 @@ namespace TestAPI.Web.Handlers.DepartmentHandlers;
 public sealed class GetDepartmentsQueryHandler : IQueryHandler<GetDepartmentsQuery, GetDepartmentsResultModel>
 {
     private readonly DataContext _dataContext;
+    private readonly IValidator<GetDepartmentsQuery> _validator;
 
-    public GetDepartmentsQueryHandler([FromServices] DataContext dataContext)
+    public GetDepartmentsQueryHandler([FromServices] DataContext dataContext, IValidator<GetDepartmentsQuery> validator)
     {
         _dataContext = dataContext;
+        _validator = validator;
     }
 
     public async Task<ResponseModel<GetDepartmentsResultModel>> Handle(GetDepartmentsQuery query, CancellationToken ct)
     {
+        var validationResult = await _validator.ValidateAsync(query, ct);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException($"{nameof(query)} of {typeof(GetDepartmentsQuery)} failed validation!");
+        }
+        
         var departments = await _dataContext.Departments
             .Select(x => new DepartmentsListItem
             {

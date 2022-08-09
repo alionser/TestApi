@@ -6,6 +6,7 @@ using TestAPI.Web.Commands.DepartmentCommands;
 using TestAPI.Web.Data;
 using TestAPI.Web.Extentsions;
 using TestAPI.Web.Interfaces;
+using TestAPI.Web.Queries;
 using TestAPI.Web.Validators.Department;
 
 namespace TestAPI.Web;
@@ -34,11 +35,11 @@ public class Startup
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
-        //вынести настройку валидаторов в отдельный метод?
-        //регистрировать по коннкретному типу, или IValidator<T>?
-        builder.RegisterType(typeof(CreateDepartmentCommandValidator))
-            .As<IValidator<CreateDepartmentCommand>>()
-            .InstancePerLifetimeScope();
+        // ConfigureFluentValidators(builder);
+        //Или так проще?
+        builder.RegisterAssemblyTypes(GetType().GetTypeInfo().Assembly)
+            .Where(t => t.Name.EndsWith("Validator"))
+            .AsImplementedInterfaces();
         
         builder.RegisterType(typeof(DataContext))
             .As<DataContext>()
@@ -55,6 +56,30 @@ public class Startup
             .Where(t => t.GetTypeInfo().ImplementedInterfaces.Intersect(domainTypes).Any())
             .AsImplementedInterfaces()
             .AsSelf()
+            .InstancePerLifetimeScope();
+    }
+
+    //может сделать расширением ContainerBuilder?
+    private void ConfigureFluentValidators(ContainerBuilder builder)
+    {
+        builder.RegisterType(typeof(CreateDepartmentCommandValidator))
+            .As<IValidator<CreateDepartmentCommand>>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType(typeof(DeleteDepartmentCommandValidator))
+            .As<IValidator<DeleteDepartmentCommand>>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType(typeof(UpdateDepartmentCommandValidator))
+            .As<IValidator<UpdateDepartmentCommand>>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType(typeof(GetDepartmentQueryValidator))
+            .As<IValidator<GetDepartmentQuery>>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType(typeof(GetDepartmentsQueryValidator))
+            .As<IValidator<GetDepartmentsQuery>>()
             .InstancePerLifetimeScope();
     }
 
