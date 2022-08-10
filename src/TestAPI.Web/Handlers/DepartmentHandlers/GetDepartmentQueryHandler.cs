@@ -22,11 +22,7 @@ public sealed class GetDepartmentQueryHandler : IQueryHandler<GetDepartmentQuery
 
     public async Task<ResponseModel<GetDepartmentResultModel>> Handle(GetDepartmentQuery query, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(query, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(query)} of {typeof(GetDepartmentQuery)} failed validation!");
-        }
+        await _validator.ValidateAndThrowAsync(query, ct);
 
         var department = await _dataContext.Departments.FirstOrDefaultAsync(d => d.Id == query.Id, ct);
 

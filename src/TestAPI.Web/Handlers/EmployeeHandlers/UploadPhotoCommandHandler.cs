@@ -21,12 +21,8 @@ public sealed class UploadPhotoCommandHandler : ICommandHandler<UploadPhotoComma
 
     public async Task<ResponseModel> Handle(UploadPhotoCommand command, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(command, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(command)} of {typeof(UploadPhotoCommand)} failed validation!");
-        }
-
+        await _validator.ValidateAndThrowAsync(command, ct);
+        
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == command.EmployeeId, ct);
 
         if (employee == null)

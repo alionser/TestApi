@@ -10,7 +10,6 @@ public sealed class UploadPhotoCommandValidator : AbstractValidator<UploadPhotoC
         RuleFor(c => c.EmployeeId)
             .GreaterThanOrEqualTo(0);
 
-        //это вообще нужно? мы вручную проверяем в UploadPhotoCommandHandler
         RuleFor(c => c.Photo)
             .NotNull();
     }

@@ -7,7 +7,6 @@ public sealed class GetEmployeesQueryValidator : AbstractValidator<GetEmployeesQ
 {
     public GetEmployeesQueryValidator()
     {
-        //как нормально писать правила валидавции для nullable типов?
         RuleFor(q => q.Surname)
             .Length(1, 50)
             .When(q => q.Surname != null);
@@ -20,7 +19,6 @@ public sealed class GetEmployeesQueryValidator : AbstractValidator<GetEmployeesQ
             .GreaterThanOrEqualTo(0)
             .When(q => q.Skip.HasValue);
 
-        //или строго больше?
         RuleFor(q => q.Count)
             .GreaterThanOrEqualTo(0)
             .When(q => q.Count.HasValue);

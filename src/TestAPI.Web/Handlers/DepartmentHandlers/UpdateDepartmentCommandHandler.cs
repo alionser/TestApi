@@ -21,11 +21,7 @@ public sealed class UpdateDepartmentCommandHandler : ICommandHandler<UpdateDepar
 
     public async Task<ResponseModel> Handle(UpdateDepartmentCommand command, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(command, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(command)} of {typeof(UpdateDepartmentCommand)} failed validation!");
-        }
+        await _validator.ValidateAndThrowAsync(command, ct);
 
         var department = await _dataContext.Departments
             .FirstOrDefaultAsync(x => x.Id == command.Id, ct);

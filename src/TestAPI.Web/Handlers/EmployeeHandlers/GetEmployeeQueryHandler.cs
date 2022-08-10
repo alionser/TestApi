@@ -22,11 +22,7 @@ public sealed class GetEmployeeQueryHandler : IQueryHandler<GetEmployeeQuery, Ge
 
     public async Task<ResponseModel<GetEmployeeResultModel>> Handle(GetEmployeeQuery query, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(query, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(query)} of {typeof(GetEmployeeQuery)} failed validation!");
-        }
+        await _validator.ValidateAndThrowAsync(query, ct);
 
         var employee = await _dataContext.Employees.FirstOrDefaultAsync(e => e.Id == query.Id, ct);
 

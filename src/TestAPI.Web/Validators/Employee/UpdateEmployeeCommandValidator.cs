@@ -32,7 +32,6 @@ public sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmp
         RuleFor(c => c.Position)
             .IsInEnum();
 
-        //или сделать проверку на существование указанного Department?
         RuleFor(c => c.DepartmentId)
             .GreaterThanOrEqualTo(0);
     }

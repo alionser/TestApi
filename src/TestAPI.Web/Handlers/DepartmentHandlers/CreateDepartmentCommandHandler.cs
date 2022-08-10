@@ -20,11 +20,7 @@ public sealed class CreateDepartmentCommandHandler : ICommandHandler<CreateDepar
 
     public async Task<ResponseModel> Handle(CreateDepartmentCommand command, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(command, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(command)} of {typeof(CreateDepartmentCommand)} failed validation!");
-        }
+        await _validator.ValidateAndThrowAsync(command, ct);
 
         var department = new Department { Name = command.Name };
         await _dataContext.Departments.AddAsync(department, ct);

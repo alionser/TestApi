@@ -20,12 +20,8 @@ public sealed class CreateEmployeeCommandHandler : ICommandHandler<CreateEmploye
 
     public async Task<ResponseModel> Handle(CreateEmployeeCommand command, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(command, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(command)} of {typeof(CreateEmployeeCommand)} failed validation!");
-        }
-
+        await _validator.ValidateAndThrowAsync(command, ct);
+        
         var employee = new Employee
         {
             Name = command.Name,

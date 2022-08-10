@@ -32,7 +32,6 @@ public sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateEmp
         RuleFor(c => c.Position)
             .IsInEnum();
 
-        //или сделать проверку на существование указанного Department?
         RuleFor(c => c.DepartmentId)
             .GreaterThanOrEqualTo(0);
     }

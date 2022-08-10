@@ -21,11 +21,7 @@ public sealed class UpdateEmployeeCommandHandler : ICommandHandler<UpdateEmploye
 
     public async Task<ResponseModel> Handle(UpdateEmployeeCommand command, CancellationToken ct)
     {
-        var validationResult = await _validator.ValidateAsync(command, ct);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException($"{nameof(command)} of {typeof(UpdateEmployeeCommand)} failed validation!");
-        }
+        await _validator.ValidateAndThrowAsync(command, ct);
 
         var employee = await _dataContext.Employees
             .Include(x => x.Department)
